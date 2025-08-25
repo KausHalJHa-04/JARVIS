@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>JARVIS</title>
+    <link rel="icon" href="assets/img/log.jpg">
     <!---->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" 
     integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
@@ -15,9 +16,17 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/vendore/texllate/animate.css" />
     <link rel="stylesheet" href="style.css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous"> -->
+      <!-- Bootsrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+
 </head>
 <body>
-<section id="Oval" class="mb-4">
+    <div class="container">
+<section id="Oval" class="mb-4" >
     <div class="row">
         <div class="col-md-1"></div>
         <div class="col-md-10">
@@ -32,28 +41,59 @@
                 </div>
             </div>
             <h4 class="text-light text text-center">Ask me Anything</h4>
+
+    <div class="col-md-12 mt-3 pt-3">
+        <div class="text-center">
+            <div id="TextInput" class="d-flex">
+                <input type="text" id="chatbox" name="chatbox" placeholder="Ask me Anything..." class="input-field">
+                <button id="MicBtn" class="glow-on-hover"><i class="bi bi-mic"></i></button>
+                <button id="ChatBtn" class="glow-on-hover"><i class="bi bi-chat-dots"></i></button>
+                <button id="SettingBtn" class="glow-on-hover"><i class="bi bi-gear-wide-connected"></i></button>
+            </div>
+        </div>
+    </div>
+
         </div>
         <div class="col-md-10"></div> 
     </div>
 
 </section>
 
+ <div id="SiriWave" class="mb-4" >
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+                    <div class="">
+                        <p class="text-start text-light mb-4 siri-message">Hello, I am Your Assistant</p>
+                        <div id="siri-container"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+ </div>
+</div>
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
-     <!-- Texllate js -->
-    <!-- <script src="assets/vendore/texllate/jquery.fittext.js"></script> -->
-    <script src="assets/vendore/texllate/jquery.lettering.js"></script>
-    <script src="http://jschr.github.io/textillate/jquery.textillate.js"></script>
-   
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" 
-    integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
-    
-    <script src="/eel.js"></script>
+<!-- Texllate js -->
+<!-- <script src="assets/vendore/texllate/jquery.fittext.js"></script> -->
+<script src="assets/vendore/texllate/jquery.lettering.js"></script>
+<script src="http://jschr.github.io/textillate/jquery.textillate.js"></script>
 
+<script src="https://unpkg.com/siriwave/dist/siriwave.umd.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" 
+integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript" src="/eel.js"></script>
     <script src="script.js"></script>
+    <script src="controller.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
