@@ -5,7 +5,7 @@ from backend.command import *
 
 # @eel.expose
 eel.init("frontend")
-os.system('start msedge.exe --app = "http://127.0.0.1:5500/frontend/index.html"')
+os.system('start msedge.exe --app = "http://127.0.0.1:5500/index.html"')
 
 os.system('start msedge.exe --app="http://localhost:8001/index.html"')
 
