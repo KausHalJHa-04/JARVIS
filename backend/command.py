@@ -10,12 +10,12 @@ def speak(text):
     voices = engine.getProperty('voices')
    # print(voices)
     eel.DisplayMessage(text)
-    engine.setProperty('voice', voices[1].id)
+    engine.setProperty('voice', voices[0].id)
     eel.DisplayMessage(text)
     engine.say(text)
     engine.runAndWait()
     engine.setProperty('rate', 174)
-
+    eel.receiverText(text)
 # speak("hello, I am Jarvis. How can I help you today?")
 
 
@@ -45,17 +45,47 @@ def takecommand():
 
 
 @eel.expose
-def takeAllCommands():
-    query = takecommand()
-    print(query)
-    if "open" in query:
-        from backend.feature import openCommand 
-        openCommand(query)
-    elif "youtube" :
-        from backend.feature import playYoutube
-        playYoutube(query)
-
+def takeAllCommands(message=None):
+    if message is None:
+        query = takecommand()  # If no message is passed, listen for voice input
+        if not query:
+            return  # Exit if no query is received
+        print(query)
+        eel.senderText(query)
     else:
-        print("I'm Not Sure What to do ")
-            
-        eel.ShowHood()
+        query = message  # If there's a message, use it
+        print(f"Message received: {query}")
+        eel.senderText(query)
+
+    try:
+        if query:
+            if "open" in query:
+                from backend.feature import openCommand
+                openCommand(query)
+        elif "send message" in query or "call" in query or "video call" in query:
+            from backend.feature import findContact, whatsApp
+            flag = ""
+            Phone, name = findContact(query)
+            if Phone != 0:
+                if "send message" in query:
+                    flag = 'message'
+                    speak("What message to send?")
+                    query = takecommand()  # Ask for the message text
+                elif "call" in query:
+                    flag = 'call'
+                else:
+                    flag = 'video call'
+                whatsApp(Phone, query, flag, name)
+        elif "on youtube" in query:
+            from backend.feature import PlayYoutube
+            PlayYoutube(query)
+        else:
+            print("I'm not sure what to do")
+            # from backend.feature import chatBot
+            # chatBot(query)
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        speak("Sorry, something went wrong.")
+    
+    eel.ShowHood()
