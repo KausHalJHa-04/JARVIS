@@ -12,6 +12,7 @@ import subprocess
 import time
 import webbrowser
 import eel
+from hugchat import hugchat
 import pvporcupine
 import pyaudio
 import pyautogui
@@ -145,7 +146,7 @@ def whatsApp(Phone, message, flag, name):
     
 
     if flag == 'message':
-        target_tab = 21
+        target_tab = 12
         jarvis_message = "message send successfully to "+name
 
     elif flag == 'call':
@@ -179,3 +180,15 @@ def whatsApp(Phone, message, flag, name):
 
     pyautogui.hotkey('enter')
     speak(jarvis_message)
+
+
+def chatBot(query):
+    user_input = query.lower()
+    chatbot = hugchat.ChatBot(compile_path="backend\cookies.json")
+    id = chatbot.new_conversation()
+    chatbot.change_conversation(id)
+    response =  chatbot.get_response(user_input)
+    # response =  chatbot.chat(user_input)
+    print(response)
+    speak(response)
+    return response
