@@ -39,7 +39,6 @@ $(document).ready(function () {
       chatBox.scrollTop = chatBox.scrollHeight;
     }
   }
-
   eel.expose(hideLoader);
   function hideLoader() {
     $("#Loader").attr("hidden", true);
@@ -51,24 +50,23 @@ $(document).ready(function () {
     $("#FaceAuth").attr("hidden", true);
     $("#FaceAuthSuccess").attr("hidden", false);
   }
- 
-   eel.expose(hideFaceAuthSuccess);
+  // Hide success and display
+  eel.expose(hideFaceAuthSuccess);
   function hideFaceAuthSuccess() {
     $("#FaceAuthSuccess").attr("hidden", true);
     $("#HelloGreet").attr("hidden", false);
   }
-  
-  
-  
+
   // Hide Start Page and display blob
- eel.expose(hideStart);
-function hideStart() {
-  $("#Start").attr("hidden", true);
-  setTimeout(function () {
-    $("#Oval").attr("hidden", false); // unhide first
-    $("#Oval").addClass("animate__animated animate__zoomIn"); // then animate
-  }, 1000);
-}
+  eel.expose(hideStart);
+  function hideStart() {
+    $("#Start").attr("hidden", true);
 
-
+    setTimeout(function () {
+      $("#Oval").addClass("animate__animated animate__zoomIn");
+    }, 1000);
+    setTimeout(function () {
+      $("#Oval").attr("hidden", false);
+    }, 1000);
+  }
 });

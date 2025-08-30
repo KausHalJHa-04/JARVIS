@@ -20,72 +20,86 @@ def speak(text):
 # Expose the Python function to JavaScript
 
 def takecommand():
+
     r = sr.Recognizer()
+
     with sr.Microphone() as source:
-        print("I'm listening...")
-        eel.DisplayMessage("I'm listening...")
+        print('listening....')
+        eel.DisplayMessage('listening....')
         r.pause_threshold = 1
         r.adjust_for_ambient_noise(source)
-        audio = r.listen(source, 10, 8)
+        
+        audio = r.listen(source, 10, 6)
 
     try:
-        print("Recognizing...")
-        eel.DisplayMessage("Recognizing...")
-        query = r.recognize_google(audio, language='en-US')
-        print(f"User said: {query}\n")
-        eel.DisplayMessage(query)     
-        speak(query)
-
+        print('recognizing')
+        eel.DisplayMessage('recognizing....')
+        query = r.recognize_google(audio, language='en-in')
+        print(f"user said: {query}")
+        eel.DisplayMessage(query)
+        time.sleep(2)
+       
     except Exception as e:
-        print(f"Error: {str(e)}\n")
-        return None
-
+        return ""
+    
     return query.lower()
 
 
 
 @eel.expose
-def takeAllCommands(message=None):
-    if message is None:
-        query = takecommand()  # If no message is passed, listen for voice input
-        if not query:
-            return  # Exit if no query is received
+def takeAllCommands(message=1):
+
+    if message == 1:
+        query = takecommand()
         print(query)
         eel.senderText(query)
     else:
-        query = message  # If there's a message, use it
-        print(f"Message received: {query}")
+        query = message
         eel.senderText(query)
-    
     try:
-        if query:
-            if "open" in query:
-                from backend.feature import openCommand
-                openCommand(query)
-            elif "send message" in query or "call" in query or "video call" in query:
-                from backend.feature import findContact, whatsApp
-                flag = ""
-                Phone, name = findContact(query)
-                if Phone != 0:
-                    if "send message" in query:
-                        flag = 'message'
-                        speak("What message to send?")
-                        query = takecommand()  # Ask for the message text
-                    elif "call" in query:
-                        flag = 'call'
+
+        if "open" in query:
+            from backend.feature import openCommand
+            openCommand(query)
+        elif "on youtube" in query:
+            from backend.feature import PlayYoutube
+            PlayYoutube(query)
+        
+        elif "send message" in query or "phone call" in query or "video call" in query:
+            from backend.feature import findContact, whatsApp, makeCall, sendMessage
+            contact_no, name = findContact(query)
+            if(contact_no != 0):
+                speak("Which mode you want to use whatsapp or mobile")
+                preferance = takecommand()
+                print(preferance)
+
+                if "mobile" in preferance:
+                    if "send message" in query or "send sms" in query: 
+                        speak("what message to send")
+                        message = takecommand()
+                        sendMessage(message, contact_no, name)
+                    elif "phone call" in query:
+                        makeCall(name, contact_no)
                     else:
-                        flag = 'video call'
-                    whatsApp(Phone, query, flag, name)
-            elif "on youtube" in query:
-                from backend.feature import PlayYoutube
-                PlayYoutube(query)
-            else:
-                from backend.feature import chatBot
-                chatBot(query)
+                        speak("please try again")
+                elif "whatsapp" in preferance:
+                    message = ""
+                    if "send message" in query:
+                        message = 'message'
+                        speak("what message to send")
+                        query = takecommand()
+                                        
+                    elif "phone call" in query:
+                        message = 'call'
+                    else:
+                        message = 'video call'
+                                        
+                    whatsApp(contact_no, query, message, name)
+
         else:
-            speak("No command was given.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-        speak("Sorry, something went wrong.")
+            from backend.feature import chatBot
+            chatBot(query)
+    except:
+        print("error")
     
     eel.ShowHood()

@@ -1,9 +1,14 @@
-# import playsound as playsound
+# import playsound
+# import eel
 
+
+# @eel.expose
 # def playAssistantSound():
-#     music_dir="frontend\\assets\\audio\\start_sound.mp3"
-#     playsound.playsound(music_dir)
+#     music_dir = "frontend\\assets\\audio\\start_sound.mp3"
+#     playsound(music_dir)
 
+
+from compileall import compile_path
 import os
 import re
 from shlex import quote
@@ -12,35 +17,35 @@ import subprocess
 import time
 import webbrowser
 import eel
-from hugchat import hugchat
+from hugchat import hugchat 
 import pvporcupine
 import pyaudio
 import pyautogui
 import pywhatkit as kit
-import pygame 
-from backend.config import ASSISTANT_NAME
+import pygame
 from backend.command import speak
+from backend.config import ASSISTANT_NAME
 import sqlite3
 
 from backend.helper import extract_yt_term, remove_words
-
 conn = sqlite3.connect("jarvis.db")
 cursor = conn.cursor()
+# Initialize pygame mixer
+pygame.mixer.init()
 
+# Define the function to play sound
 @eel.expose
 def play_assistant_sound():
     sound_file = r"C:\JARVIS\frontend\assets\audio\start_sound.mp3"
-    pygame.mixer.init()
     pygame.mixer.music.load(sound_file)
     pygame.mixer.music.play()
-
-
-
+    
+    
 def openCommand(query):
-    query = query.replace(ASSISTANT_NAME, "")
-    query = query.replace("open", "")
+    query = query.replace(ASSISTANT_NAME,"")
+    query = query.replace("open","")
     query.lower()
-
+    
     app_name = query.strip()
 
     if app_name != "":
@@ -72,11 +77,10 @@ def openCommand(query):
         except:
             speak("some thing went wrong")
 
- 
 
-def playYoutube(query):
+def PlayYoutube(query):
     search_term = extract_yt_term(query)
-    speak("Playing "+search_term+" on youtube")
+    speak("Playing "+search_term+" on YouTube")
     kit.playonyt(search_term)
 
 
@@ -117,7 +121,6 @@ def hotword():
             audio_stream.close()
         if paud is not None:
             paud.terminate()
- 
 
 
 def findContact(query):
@@ -140,8 +143,7 @@ def findContact(query):
         speak('not exist in contacts')
         return 0, 0
     
-
-
+    
 def whatsApp(Phone, message, flag, name):
     
 
@@ -159,7 +161,8 @@ def whatsApp(Phone, message, flag, name):
         message = ''
         jarvis_message = "staring video call with "+name
 
-      # Encode the message for URL
+
+    # Encode the message for URL
     encoded_message = quote(message)
     print(encoded_message)
     # Construct the URL
@@ -184,11 +187,10 @@ def whatsApp(Phone, message, flag, name):
 
 def chatBot(query):
     user_input = query.lower()
-    chatbot = hugchat.ChatBot(compile_path="backend\cookies.json")
+    chatbot = hugchat.ChatBot(cookie_path="backend\cookie.json")
     id = chatbot.new_conversation()
     chatbot.change_conversation(id)
-    response =  chatbot.get_response(user_input)
-    # response =  chatbot.chat(user_input)
+    response =  chatbot.chat(user_input)
     print(response)
     speak(response)
     return response

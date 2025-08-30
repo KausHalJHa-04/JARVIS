@@ -12,8 +12,9 @@ from backend.feature import *
 from backend.command import *
 # @eel.expose
 def start():
-    eel.init("frontend")
-    # Note: Corrected a space around the '=' in the --app argument
+    
+    eel.init("frontend") 
+    
     play_assistant_sound()
     @eel.expose
     def init():
@@ -30,6 +31,7 @@ def start():
             play_assistant_sound()
         else:
             speak("Face not recognized. Please try again")
+
     os.system('start msedge.exe --app="http://127.0.0.1:5500/index.html"')
     os.system('start msedge.exe --app="http://localhost:8001/index.html"')
 
